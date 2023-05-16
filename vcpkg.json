@@ -1,0 +1,13 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+
+    "name": "boarmuscle",
+    "dependencies": [
+
+        {
+            "name": "sdl2"
+        }
+    ],
+
+    "builtin-baseline": "dbd30811862212d24bf929db99361c7c12326783"
+}

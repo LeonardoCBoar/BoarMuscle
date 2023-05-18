@@ -15,7 +15,7 @@
 #include "collisions.hpp"
 #include "geometry.hpp"
 #include "vector.hpp"
-#include "sdl_manager.hpp"
+#include "graphical_manager.hpp"
 
 
 const double MOVE_SPEED = 4;
@@ -54,10 +54,7 @@ int main()
     add_circle(circles, {200,600}, 70);
     BMuscle::Circle& player = circles[2];
 
-
-
-    SDLManager sdl_manager("Circle Collisions", {1280,720});
-    SDL_Renderer* renderer = sdl_manager.renderer;
+    GraphicalManager graphical_manager("Circle Collisions", {1280,720});
     
     SDL_Event event;
     bool shall_quit = false;
@@ -76,10 +73,10 @@ int main()
                         break;
 
                     case SDLK_w:
-                        move_circle(circles, 2, {0,-MOVE_SPEED});
+                        move_circle(circles, 2, {0,MOVE_SPEED});
                         break;
                     case SDLK_s:
-                        move_circle(circles, 2, {0,MOVE_SPEED});
+                        move_circle(circles, 2, {0,-MOVE_SPEED});
                         break;
                     case SDLK_a:
                         move_circle(circles, 2, {-MOVE_SPEED, 0});
@@ -90,15 +87,8 @@ int main()
                 }
             }
         }
-        SDL_SetRenderDrawColor(renderer, 200, 200, 200, 200);
-        SDL_RenderClear(renderer);
-        for(const auto circle : circles)
-        {
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
-            sdl_manager.draw_circle(renderer, circle.center, circle.radius);
-        }
-        SDL_RenderPresent(renderer);
 
+        graphical_manager.render(circles);
     }
 
 

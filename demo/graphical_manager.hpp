@@ -15,6 +15,7 @@
 struct SDL_Window;
 struct SDL_Renderer;
 
+void check_error();
 
 class GraphicalManager
 {

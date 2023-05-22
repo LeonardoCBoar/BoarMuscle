@@ -12,6 +12,16 @@
 // builtin
 #include <cstdint>
 
+void check_error()
+{
+    GLenum error = glGetError();
+    if(error != GL_NO_ERROR)
+    {
+        std::cout << "OpenGL error: " << gluErrorString(error) << std::endl;
+        std::exit(1);
+    }
+}
+
 GraphicalManager::GraphicalManager(const std::string& window_name, const BMuscle::Vector2i32 window_size)
    :window_size{window_size}
 {
@@ -66,31 +76,21 @@ void GraphicalManager::setup_opengl()
 
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    
-    error = glGetError();
-    if(error != GL_NO_ERROR )
-    {
-        std::cout << "OpenGL error: " << gluErrorString(error) << std::endl;
-        std::exit(1);
-    }
+    check_error();
+
+    glOrtho(0.f, this->window_size.x, 0.f, this->window_size.y, 1.0, -1.0);
+    check_error();
 
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity();
+    check_error();
 
-    error = glGetError();
-    if(error != GL_NO_ERROR)
-    {
-        std::cout << "OpenGL error: " << gluErrorString(error) << std::endl;
-        std::exit(1);
-    }
     glClearColor( 0.f, 0.f, 0.f, 1.f );
-    
-    error = glGetError();
-    if(error != GL_NO_ERROR)
-    {
-        std::cout << "OpenGL error: " << gluErrorString(error) << std::endl;
-        std::exit(1);
-    }
+    check_error();
+
+    glViewport(0, 0, this->window_size.x, this->window_size.y);
+    check_error();
+
 }
 
 void GraphicalManager::render(std::vector<BMuscle::Circle>& circles)
@@ -129,7 +129,7 @@ void GraphicalManager::draw_circle(const BMuscle::Vector2d center, const double 
 
         glColor3f( 1.f, 0.f, 0.f );
         glBegin( GL_POINTS);
-            glVertex2f(x*2 / static_cast<double>(window_size.x) - 1, y*2 / static_cast<double>(window_size.y) - 1);
+            glVertex2f(x,y);
         glEnd();
     }
    }
